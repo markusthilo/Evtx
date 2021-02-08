@@ -29,13 +29,14 @@ if __name__ == '__main__':	# start here if called as application
 	argparser.add_argument('-w', '--outfile', type=FileType('w'),
 		help='File to write', metavar='FILE', default=StdOut
 	)	
-	argparser.add_argument('infiles', nargs=1, type=FileType('rt'),
+	argparser.add_argument('infile', nargs=1, type=FileType('rt'),
 		help='Event log file to read', metavar='FILE'
 	)
 	args = argparser.parse_args()
-	if args.infiles == []:
-		print('Error: At least one input file is required.', file=StdErr)
-		SysExit(1)
+	print(args.infile)
+	with Evtx.Evtx(args.infile[0].name) as logfile:
+		for record in logfile.records():
+			print(record.lxml())
 
 	SysExit(0)
 
