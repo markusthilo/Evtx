@@ -6,6 +6,7 @@ __version__ = '0.1_2021-02-08'
 __license__ = 'GPL-3'
 
 from Evtx import Evtx
+from bs4 import BeautifulSoup
 from argparse import ArgumentParser, FileType
 from sys import stdout as StdOut
 from sys import stderr as StdErr
@@ -36,7 +37,9 @@ if __name__ == '__main__':	# start here if called as application
 	print(args.infile)
 	with Evtx.Evtx(args.infile[0].name) as logfile:
 		for record in logfile.records():
-			print(record.lxml())
+			print('------------------------------------------')
+			bs = BeautifulSoup(record.xml())
+			print(bs)
 
 	SysExit(0)
 
